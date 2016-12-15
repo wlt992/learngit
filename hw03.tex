@@ -1,0 +1,147 @@
+\documentclass[11pt,a4paper]{article}
+
+%%%%%%===== 宏包调用 =====
+\usepackage{CJK,CJKnumb}
+\usepackage{graphicx}           % 插入图片
+\usepackage{color}              % 支持彩色
+\usepackage{indentfirst}        % 首行缩进宏包
+\usepackage{latexsym,bm}        % 处理数学公式中和黑斜体的宏包
+\usepackage{amsmath}
+\usepackage{amssymb}    % AMS math宏包 用来排出更加漂亮的公式
+\usepackage{cases}              % 数学公式
+
+%%%%%%===== 重定义字体和字号 =====
+\newcommand{\song}{\CJKfamily{song}}    % 宋体
+\newcommand{\fs}{\CJKfamily{fs}}        % 仿宋体
+\newcommand{\kai}{\CJKfamily{kai}}      % 楷体
+\newcommand{\hei}{\CJKfamily{hei}}      % 黑体
+\newcommand{\li}{\CJKfamily{li}}        % 隶书
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     % 初号
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} % 小初号
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      % 一号
+\newcommand{\xiaoyihao}{\fontsize{24pt}{\baselineskip}\selectfont}  % 小一号
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      % 二号
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  % 小二号
+\newcommand{\sanhao}{\fontsize{16pt}{\baselineskip}\selectfont}     % 三号
+\newcommand{\xiaosanhao}{\fontsize{15pt}{\baselineskip}\selectfont} % 小三号
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}      % 四号
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  % 小四号
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    % 五号
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   % 小五号
+
+%%%%%%===== 页面设置 =====
+\setlength{\textwidth}{14.5cm}  % 正文宽度
+\setlength{\textheight}{20cm}   % 正文高度
+\setlength{\hoffset}{0cm}       % 左边距 = \hoffset + 1 英寸
+\setlength{\voffset}{0cm}       % 顶端距离 = \voffset + 1 英寸
+\setlength{\parskip}{3pt plus1pt minus1pt}  % 段落之间的竖直距离
+\renewcommand{\baselinestretch}{1.2}    % 定义行距
+
+%%%%%%===== 自定义命令 =====
+%\numberwithin{equation}{section}
+\newcommand{\C}{\mathbb{C}}
+
+\begin{document}
+\begin{CJK*}{GBK}{song}
+\CJKindent\CJKtilde
+
+%%%%%%===== 标题名称中文化 =====
+\renewcommand\abstractname{\hei~摘\ 要}
+\renewcommand\refname{\hei~参考文献}
+\renewcommand\figurename{\hei~图}
+\newtheorem{definition}{\hei~定义~}[section]
+\newtheorem{theorem}{\hei~定理~}[section]
+\newtheorem{lemma}[theorem]{\hei~引理~}
+\newtheorem{corollary}[theorem]{\hei~推论~}
+\newtheorem{proposition}[theorem]{\hei~命题~}
+
+\title{关于极分解的一些新结果
+\thanks{请用学校的电子邮箱将~tex 源文件作为附件发送到
+~\texttt{wfy}@\texttt{math.ecnu.edu.cn}, 邮件主题为~``学号-姓名",
+文件名取为: hw03.tex. 本次作业的截止日期为~2011.4.10}}
+
+\author{王卫国\quad 刘新国\thanks{本文受~863~课题部分资助.} \\
+ (中国海洋大学数学系,~山东青岛 266071)}
+ \date{}
+\maketitle
+
+\begin{abstract}
+本文研究极分解和广义极分解.~
+孙和陈提出的~Frobenius~范数下的逼近定理被推广至任何酉不变范数情形.~
+得到了次酉极因子的一个新的表达式.~通过新的表达式,~我们得到了次酉极因子在
+任何酉不变范数下的扰动界.~最后,~讨论了数值计算方法.
+\end{abstract}
+
+\section{引言}
+
+若 ~$A\in\C^{m\times n}$~有分解~$A=UH$,~其中~$U\in\C^{m\times n}$~是列正交矩阵,
+$H\in\C^{n\times n}$~是~Hermite~半正定矩阵,~%
+则这一分解叫做 ~$A$~的极分解.
+Autonne~在 ~1902~年首先研究了极分解,~关于极分解
+的最佳逼近性质,~扰动界限和算法已有很多讨论,~%
+见~\cite{Ben74,Chen05,Hig86}.
+
+一般而言,~矩阵的广义极分解不唯一.~有学者给出了唯一性条件和一个等价表
+述,~同时给出了广义极分解的一些性质、扰动界和求次酉极因子的迭代算法.
+
+\section{主要结果}
+
+由于 ~$m\times n$~列规范正交阵必为次酉矩阵,~%
+因此极分解必为广义极分解.~%
+然而这种推广使得广义极分解有很大的不唯一性考虑.
+
+考虑 ~$A\in\C_r^{m\times n}$~的奇异值分解~(SVD)
+\begin{eqnarray}
+  A=U \left[\begin{array}{cc}
+    \Sigma_1 & 0 \\ 0 & 0 \\ 0&0
+  \end{array} \right]
+  V^H,
+\end{eqnarray}
+其中 ~$U=[U_1,U_2,U_3]\in\C^{m\times m}$,
+$V=[V_1,V_2]\in\C^{n\times n}$~是酉矩阵,
+$U_1\in\C^{m\times r}$, $V_1\in\C^{n\times r}$,
+$U_2\in\C^{m\times(n-r)}$, $\Sigma_1=\mathrm{diag}(\sigma_1,\sigma_2,\cdots,\sigma_r)$,
+$\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_r\geq 0$.
+
+$A$~的极分解为 ~$A=QH$,~其中 ~$H=(A^HA)^{1/2}$.~%
+但当 ~$r<n$~时,~因子 ~$Q$~是不唯一的.~后面的引理将给出~$Q$~的一般表达式.~%
+当 ~$r=n$~时, $A$~的广义极分解与极分解相同,~因而不必独立讨论.~%
+而当~$r<n$~时,~广义极分解远比极分解复杂.
+
+\subsection{广义极分解的唯一性}
+
+可以如下产生 ~$A$~的一个广义极分解
+\begin{equation}\label{gpd}
+  A=Q_G H, \quad\mbox{其中}\ Q_G=U_1V_1^H,\ H=V_1\Sigma_1 V_1^H.
+\end{equation}
+对于非零矩阵 ~$A\in\C^{m\times n}$,~则在
+\begin{equation}
+  R(Q^H) = R(H)
+\end{equation}
+的限制下, $A$~的广义极因子 ~$Q$, $H$~唯一确定.~%
+本文所指的广义极分解总指由 ~(\ref{gpd})~确定的分解.
+
+这里要指出,~次酉极因子 ~$Q_G$~与极因子~$Q$~有很大区别.
+
+
+% 参考文献
+\begin{thebibliography}{99}
+\bibitem{Ben74}A. Ben-Israel and T. N. E. Grevile,
+{\em Generalized Inverse: Theory and applications},
+John Wiley, New York, 1974.
+
+\bibitem{Chen05}陈小山,~黎稳,~{\kai 酉不变范数下极分解的扰动界},~计算数学, 2005, 27:112--128.
+
+\bibitem{Fan55}K. Fan and A. J. Hoffman,
+{\em Some metric inequalities in the space of matrices},
+Proc. Amer. Math. Soc., 1955, 6:111--116.
+
+\bibitem{Hig86}N. J. Higham,
+{\em Computing the polar decomposition with applications},
+SIAM J. Sci. Statist. Comput., 1986, 7:1160--1174.
+\end{thebibliography}
+
+%\clearpage
+\end{CJK*}
+
+\end{document}
